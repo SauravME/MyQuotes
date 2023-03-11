@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MyQuotes</string>
+    <string name="app_title">QUOTES</string>
+    <string name="quote">Winners are not who never fails but those who never quit</string>
 </resources>
