@@ -1,3 +1,3 @@
 package com.example.myquotes
 
-data class Model(val quotes : String, val author : String)
+data class Model(val text : String, val author : String)
