@@ -2,4 +2,6 @@
     <string name="app_name">MyQuotes</string>
     <string name="app_title">QUOTES</string>
     <string name="quote">Winners are not who never fails but those who never quit</string>
+    <string name="share">share</string>
+    <string name="writer_name">Dr.A.P.J Abdul Kalam</string>
 </resources>

@@ -1,12 +1,13 @@
 package com.example.myquotes
 
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
 
-class MainViewModel(val  context: Context) : ViewModel() {
+class MainViewModel(private val  context: Context) : ViewModel() {
         private  var allQuotes : Array<Model> = emptyArray()
-       private  var index = 0
+       private  var index = loadData()
     init {
        allQuotes = loadQuotesFromAssets()
     }
@@ -22,28 +23,38 @@ class MainViewModel(val  context: Context) : ViewModel() {
         return gson.fromJson(json, Array<Model>::class.java)
     }
 
-    fun Context.readJsonAsset(fileName: String): String {
-        val inputStream = assets.open(fileName)
-        val size = inputStream.available()
-        val buffer = ByteArray(size)
-        inputStream.read(buffer)
-        inputStream.close()
-        return String(buffer, Charsets.UTF_8)
-    }
+
     fun getQuote() = allQuotes[index]
 
     fun prevQuote(): Model {
         return if(index > 0) {
-            allQuotes[--index]
+            saveData(--index)
+            allQuotes[index]
         } else {
+            saveData(index)
             allQuotes[index]
         }
     }
     fun nextQuote(): Model {
         return if(index < allQuotes.size -1 ) {
-            allQuotes[index ++]
+            saveData(++index)
+            allQuotes[index]
         } else {
+            saveData(index)
             allQuotes[index]
         }
+    }
+    private fun saveData( Index : Int){
+        val sharedPreferences : SharedPreferences  = context.getSharedPreferences("sharedPref",Context.MODE_PRIVATE)
+        val editor : SharedPreferences.Editor = sharedPreferences.edit()
+        editor.apply{
+            putInt("index", Index)
+        }.apply()
+
+    }
+    private fun loadData(): Int {
+        val sharedPreferences: SharedPreferences =
+            context.getSharedPreferences("sharedPref", Context.MODE_PRIVATE)
+        return sharedPreferences.getInt("index", 0)
     }
 }
